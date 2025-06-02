@@ -6,7 +6,7 @@ env:
     ECS_REGION: ap-south-1               # Mumbai for ECS
     AWS_ACCOUNT_ID: 209561933103
     CLUSTER_NAME: vamsi-cluster
-    SERVICE_NAME: vamsi-service
+    SERVICE_NAME: vamsi-task-service-p4ht8z8a
     TASK_DEFINITION_FAMILY: vamsi-task
     CONTAINER_NAME: vamsi-container
     SUBNET_ID: subnet-0063afb8321457f6b
