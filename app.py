@@ -1,6 +1,10 @@
-from flask import Flask, send_file
+from flask import Flask, send_file, request, jsonify
+import requests
 
 app = Flask(__name__)
+
+# ✅ Backend internal load balancer URL
+BACKEND_URL = "http://internal-instance-ll-rr-1942256296.ap-south-1.elb.amazonaws.com:8080"
 
 @app.route('/')
 def index():
@@ -21,6 +25,34 @@ def submitted():
 @app.route('/data')
 def data():
     return send_file('data.html')
+
+# ✅ Proxy /submit to backend
+@app.route('/submit', methods=['POST'])
+def proxy_submit():
+    form_data = request.form.to_dict()
+    try:
+        response = requests.post(f"{BACKEND_URL}/submit", data=form_data)
+        return jsonify(response.json()), response.status_code
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# ✅ Proxy /get-data/<id> to backend (optional)
+@app.route('/get-data/<int:user_id>', methods=['GET'])
+def proxy_get_data(user_id):
+    try:
+        response = requests.get(f"{BACKEND_URL}/get-data/{user_id}")
+        return jsonify(response.json()), response.status_code
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# ✅ Proxy /delete/<id> to backend (optional)
+@app.route('/delete/<int:user_id>', methods=['DELETE'])
+def proxy_delete(user_id):
+    try:
+        response = requests.delete(f"{BACKEND_URL}/delete/{user_id}")
+        return jsonify(response.json()), response.status_code
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
