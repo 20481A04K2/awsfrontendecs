@@ -2,9 +2,11 @@ from flask import Flask, send_file, request, jsonify
 import requests
 import boto3
 import json
+from flask_cors import CORS
+
 
 app = Flask(__name__)
-
+CORS(app, origins=["http://vamsi-loadbalancer-1451045427.ap-south-1.elb.amazonaws.com"])
 # Backend internal load balancer URL
 BACKEND_URL = "http://internal-instance-ll-rr-1942256296.ap-south-1.elb.amazonaws.com:8080"
 
