@@ -149,7 +149,7 @@
                 jsonData[key] = value;
             });
 
-            fetch("https://yjfo47wn3a.execute-api.ap-south-1.amazonaws.com/submit", {
+            fetch("http://internal-instance-ll-rr-1942256296.ap-south-1.elb.amazonaws.com/submit", {  // 🔁 Replace with your real backend URL
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -159,7 +159,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.id) {
-                    window.location.href = `data.html?id=${data.id}`;
+                    window.location.href = `data.html?id=${data.id}`;  // ✅ Redirect after success
                 } else {
                     alert("Submission failed.");
                 }
@@ -172,3 +172,5 @@
     </script>
 </body>
 </html>
+
+
