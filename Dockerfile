@@ -7,7 +7,7 @@ WORKDIR /app
 COPY . /app
 
 # Install dependencies
-RUN pip install Flask requests boto3
+RUN pip install Flask requests
 
 # Expose port 8080
 EXPOSE 8080
