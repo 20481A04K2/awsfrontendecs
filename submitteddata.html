@@ -107,15 +107,14 @@ tbody tr:last-child td {
         </thead>
         <tbody>
     {% for user in users %}
-        {% set mongo = mongo_dict.get(user[0]) %}
         <tr>
-            <td>{{ user[0] }}</td>
-            <td>{{ user[1] }}</td>
-            <td>{{ user[2] }}</td>
-            <td>{{ user[3] }}</td>
-            <td>{{ user[4] }}</td>
-            <td>{{ mongo.address if mongo else '' }}</td>
-            <td>{{ mongo.comments if mongo else '' }}</td>
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.password }}</td>
+            <td>{{ user.phone }}</td>
+            <td>{{ user.address }}</td>
+            <td>{{ user.comments }}</td>
         </tr>
     {% endfor %}
 </tbody>
