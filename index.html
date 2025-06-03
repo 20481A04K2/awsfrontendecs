@@ -144,27 +144,6 @@
         
         <input type="submit" value="Submit">
     </form>
-    <script>
-        document.getElementById('userForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const formData = new FormData(this);
-            const jsonData = Object.fromEntries(formData.entries());
-
-            const response = await fetch('/submit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(jsonData)
-            });
-
-            if (response.ok) {
-                window.location.href = "/submitteddata";
-            } else {
-                alert("Submission failed");
-            }
-        });
-    </script>
+   
 </body>
 </html>
