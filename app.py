@@ -6,7 +6,7 @@ from flask_cors import CORS
 
 
 app = Flask(__name__)
-CORS(app, origins=["http://vamsi-loadbalancer-1451045427.ap-south-1.elb.amazonaws.com"])
+CORS(app, origins=["http://vamsi-loadbalancer-1451045427.ap-south-1.elb.amazonaws.com:8080"])
 # Backend internal load balancer URL
 BACKEND_URL = "http://internal-instance-ll-rr-1942256296.ap-south-1.elb.amazonaws.com:8080"
 
