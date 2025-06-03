@@ -1,10 +1,16 @@
 from flask import Flask, send_file, request, jsonify
 import requests
+import boto3
+import json
 
 app = Flask(__name__)
 
 # ✅ Backend internal load balancer URL
 BACKEND_URL = "http://internal-instance-ll-rr-1942256296.ap-south-1.elb.amazonaws.com:8080"
+
+# ✅ Hardcoded SQS setup (update with your actual queue URL)
+SQS_QUEUE_URL = "https://sqs.ap-south-1.amazonaws.com/209561933103/capstone-1595"
+sqs_client = boto3.client('sqs', region_name='ap-south-1')
 
 @app.route('/')
 def index():
@@ -26,12 +32,26 @@ def submitted():
 def data():
     return send_file('data.html')
 
-# ✅ Proxy /submit to backend
+# ✅ Proxy /submit to backend + push message to SQS
 @app.route('/submit', methods=['POST'])
 def proxy_submit():
     form_data = request.form.to_dict()
     try:
+        # Forward form data to backend submit endpoint
         response = requests.post(f"{BACKEND_URL}/submit", data=form_data)
+        
+        # After backend success, send message to SQS for Lambda trigger
+        email = form_data.get("email")
+        if email:
+            message = {
+                "email": email,
+                "form_data": form_data
+            }
+            sqs_client.send_message(
+                QueueUrl=SQS_QUEUE_URL,
+                MessageBody=json.dumps(message)
+            )
+        
         return jsonify(response.json()), response.status_code
     except Exception as e:
         return jsonify({"error": str(e)}), 500
