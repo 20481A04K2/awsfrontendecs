@@ -6,8 +6,8 @@ WORKDIR /app
 # Copy source code
 COPY . /app
 
-# Install dependencies
-RUN pip install Flask requests
+# Install dependencies (Flask, requests, boto3 for AWS SQS)
+RUN pip install --no-cache-dir Flask requests boto3
 
 # Expose port 8080
 EXPOSE 8080
