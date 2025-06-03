@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Fetched Data</title>
   <style>
+    /* Your existing CSS styles */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -81,38 +82,40 @@
   <a href="/">Back to Home</a>
 
   <script>
-    // Backend API base URL
-    const API_BASE = "http://internal-instance-ll-rr-1942256296.ap-south-1.elb.amazonaws.com";
+    // Update with your backend API base URL
+    const API_BASE = "internal-instance-ll-rr-1942256296.ap-south-1.elb.amazonaws.com";
 
-    // Get user ID from query string (e.g., ?id=1)
+    // Get user id from URL query param, default to 1
     const userId = new URLSearchParams(window.location.search).get("id") || 1;
 
     const messageDiv = document.getElementById("message");
     const userTable = document.getElementById("user-table");
     const tbody = document.getElementById("user-data-body");
 
-    fetch(`${API_BASE}/get-data/${userId}`)
+    fetch(`${API_BASE}/get_user/${userId}`)
       .then(response => response.json())
       .then(data => {
-        if (!data || data.error || !data.user || !data.user.id) {
+        if (!data || data.error || !data.id) {
           messageDiv.textContent = "No data found for the provided ID.";
           userTable.style.display = "none";
           return;
         }
-
+        // Clear message, show table
         messageDiv.textContent = "";
         userTable.style.display = "table";
+
+        // Clear any previous rows
         tbody.innerHTML = "";
 
+        // Build row with user data
         const tr = document.createElement("tr");
+
+        // Fields to display in order
         const fields = ['id', 'name', 'email', 'password', 'phone', 'address', 'comments'];
 
         fields.forEach(field => {
           const td = document.createElement("td");
-          const value = (field === "address" || field === "comments")
-            ? data.mongo?.[field]
-            : data.user?.[field];
-          td.textContent = value || "";
+          td.textContent = data[field] || "";
           tr.appendChild(td);
         });
 
