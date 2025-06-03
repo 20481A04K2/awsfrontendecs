@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add New User</title>
     <style>
-        /* CSS styles remain the same */
+        /* Add your custom CSS styles here */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -34,7 +33,7 @@
             margin-top: 30px;
         }
         form {
-            width: 40%;
+            width: 40%; /* Adjusted width for the form */
             margin: 20px auto;
             background-color: #6e80ce;
             padding: 20px;
@@ -70,11 +69,12 @@
             background-color: #0056b3;
         }
         .top-bar {
-            background-color: rgb(25, 25, 105);
-            color: #e7f1f4;
+            background-color: rgb(25, 25, 105); /* Change the background color */
+            color: #e7f1f4; /* Change the text color */
             padding: 8px;
             font-size: 24px;
-            font-family: Arial, sans-serif;
+            font-family: Arial, sans-serif; /* Change the font family */
+
         }
         .right-links a {
             color: white;
@@ -89,88 +89,60 @@
             padding: 10px 20px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            text-decoration: none;
+            text-decoration: none; /* Remove underline */
             position: absolute;
-            top: 120px;
-            right: 120px;
+            top: 120px; /* Move down */
+            right: 120px; /* Move to the right */
         }
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-            font-size: 24px;
-        }
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 24px;
+}
+
     </style>
 </head>
 <body>
+    <!-- <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/get-data">Fetch Data</a>
+       
+    </div> -->
+    
     <div class="top-bar">
-        <div class="container">👥 Customer User Management</div>
+        <div class="container">
+            
+          👥 Customer User Management
+        </div>
+        
     </div>
     <a href="/get-data" class="btn">Fetch Data</a>
-
     <h1>Add New User</h1>
+    <form action="/submit" method="post">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
 
-    <form id="userForm">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <label for="address">Address:</label><br>
+        <textarea id="address" name="address" required></textarea><br><br>
+        
+        <label for="phonenumber">Phone Number:</label><br>
+        <input type="text" id="phonenumber" name="phonenumber" required><br><br>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-
-        <label for="address">Address:</label>
-        <textarea id="address" name="address" required></textarea>
-
-        <label for="phonenumber">Phone Number:</label>
-        <input type="text" id="phonenumber" name="phonenumber" required>
-
-        <label for="Comments">Comments:</label>
-        <input type="text" id="Comments" name="Comments" required>
-
+        <label for="Comments">Comments:</label><br>
+        <input type="text" id="Comments" name="Comments" required><br><br>
+        
         <input type="submit" value="Submit">
     </form>
-
-    <script>
-        const form = document.getElementById("userForm");
-
-        form.addEventListener("submit", function (event) {
-            event.preventDefault();
-
-            const formData = new FormData(form);
-            const jsonData = {};
-
-            formData.forEach((value, key) => {
-                jsonData[key] = value;
-            });
-
-            fetch("http://internal-instance-ll-rr-1942256296.ap-south-1.elb.amazonaws.com/submit", {  // 🔁 Replace with your real backend URL
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(jsonData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.id) {
-                    window.location.href = `data.html?id=${data.id}`;  // ✅ Redirect after success
-                } else {
-                    alert("Submission failed.");
-                }
-            })
-            .catch(error => {
-                console.error("Error submitting form:", error);
-                alert("An error occurred while submitting the form.");
-            });
-        });
-    </script>
 </body>
 </html>
-
-
