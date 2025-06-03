@@ -44,7 +44,7 @@ def proxy_submit():
 def submitted_data():
     try:
         # Get all data from backend
-        response = requests.get(f"{BACKEND_ILB_URL}/all-data")
+        response = requests.get(f"{BACKEND_ILB_URL}/submitteddata")
         response.raise_for_status()
         users = response.json()
     except Exception as e:
