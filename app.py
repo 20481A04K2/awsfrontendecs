@@ -55,6 +55,16 @@ def proxy_submit():
         return jsonify(response.json()), response.status_code
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+@app.route("/submitteddata")
+def submitted_data():
+    try:
+        # Get all data from backend
+        response = requests.get(f"{BACKEND_ILB_URL}/all-data")
+        response.raise_for_status()
+        users = response.json()
+    except Exception as e:
+        users = []
+    return render_template("submitteddata.html", users=users)
 
 # ✅ Proxy /get-data/<id> to backend (optional)
 @app.route('/get-data/<int:user_id>', methods=['GET'])
