@@ -1,10 +1,18 @@
+import boto3
+import json
 from flask import Flask, send_file, request, jsonify
 import requests
 
 app = Flask(__name__)
 
-# ✅ Backend internal load balancer URL
+# Backend internal load balancer URL
 BACKEND_URL = "http://internal-instance-ll-rr-1942256296.ap-south-1.elb.amazonaws.com:8080"
+
+#  SQS configuration
+SQS_QUEUE_URL = 'https://sqs.ap-south-1.amazonaws.com/209561933103/capstone-1595'
+AWS_REGION = 'ap-south-1'
+
+sqs_client = boto3.client('sqs', region_name=AWS_REGION)
 
 @app.route('/')
 def index():
@@ -26,17 +34,28 @@ def submitted():
 def data():
     return send_file('data.html')
 
-# ✅ Proxy /submit to backend
+#  Proxy /submit to backend and push to SQS
 @app.route('/submit', methods=['POST'])
 def proxy_submit():
     form_data = request.form.to_dict()
     try:
+        # Forward to backend
         response = requests.post(f"{BACKEND_URL}/submit", data=form_data)
+
+        # Push message to SQS
+        email = form_data.get("email")
+        if email:
+            sqs_client.send_message(
+                QueueUrl=SQS_QUEUE_URL,
+                MessageBody=json.dumps({
+                    "email": email,
+                    "form_data": form_data
+                })
+            )
         return jsonify(response.json()), response.status_code
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# ✅ Proxy /get-data/<id> to backend (optional)
 @app.route('/get-data/<int:user_id>', methods=['GET'])
 def proxy_get_data(user_id):
     try:
@@ -45,7 +64,6 @@ def proxy_get_data(user_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# ✅ Proxy /delete/<id> to backend (optional)
 @app.route('/delete/<int:user_id>', methods=['DELETE'])
 def proxy_delete(user_id):
     try:
