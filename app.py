@@ -2,7 +2,7 @@ from flask import Flask, send_file, request, jsonify
 import requests
 import boto3
 import json
-
+from flask import redirect
 app = Flask(__name__)
 
 # ✅ Backend internal load balancer URL
@@ -37,9 +37,7 @@ def proxy_submit():
     try:
         # Forward form data to backend submit endpoint
         response = requests.post(f"{BACKEND_URL}/submit", data=form_data)
-        
-        
-        return jsonify(response.json()), response.status_code
+        return redirect('/submitteddata')
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 @app.route("/submitteddata")
