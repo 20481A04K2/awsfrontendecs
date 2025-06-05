@@ -22,9 +22,6 @@ def get_data():
 def delete():
     return send_file('delete.html')
 
-@app.route('/submitteddata')
-def submitted():
-    return send_file('submitteddata.html')
 
 @app.route('/data')
 def data():
