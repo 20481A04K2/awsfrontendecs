@@ -1,4 +1,5 @@
-FROM python:3.10-slim
+# Use Amazon Public ECR base image to avoid Docker Hub rate limits
+FROM public.ecr.aws/docker/library/python:3.10-slim
 
 # Set working directory
 WORKDIR /app
@@ -6,7 +7,7 @@ WORKDIR /app
 # Copy source code
 COPY . /app
 
-# Install dependencies (Flask, requests, boto3 for AWS SQS)
+# Install dependencies
 RUN pip install --no-cache-dir Flask requests boto3
 
 # Expose port 8080
