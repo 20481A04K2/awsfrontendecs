@@ -23,8 +23,8 @@ phases:
     commands:
       - echo Logging in to Amazon ECR Public in $ECR_REGION...
       - aws --version
-      - aws ecr-public get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin public.ecr.aws/i5n8n4i7
-      - REPOSITORY_URI=public.ecr.aws/i5n8n4i7/vamsi-repo
+      - aws ecr-public get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin public.ecr.aws/z8i7v1n4
+      - REPOSITORY_URI=public.ecr.aws/z8i7v1n4/vamsi-repo
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - echo IMAGE_TAG=$IMAGE_TAG
 
