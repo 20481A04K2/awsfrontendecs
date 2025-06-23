@@ -4,7 +4,7 @@ env:
   variables:
     ECR_REGION: us-east-1                # US Virginia for ECR
     ECS_REGION: ap-south-1               # Mumbai for ECS
-    AWS_ACCOUNT_ID: 209561933103
+    AWS_ACCOUNT_ID: 3372-4365-5832
     CLUSTER_NAME: vamsi-cluster
     SERVICE_NAME: vamsi-task-service-qd2icc5s
     TASK_DEFINITION_FAMILY: vamsi-task
