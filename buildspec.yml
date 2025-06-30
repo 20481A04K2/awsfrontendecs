@@ -9,8 +9,8 @@ env:
     SERVICE_NAME: vamsi-task-service-8q8i0t02
     TASK_DEFINITION_FAMILY: vamsi-task
     CONTAINER_NAME: vamsi-repo
-    SUBNET_ID: subnet-01475dd681a52e7b0
-    SECURITY_GROUP_ID: sg-06078bcb565e22595
+    SUBNET_ID: subnet-0e60a6d22bbda3cc0
+    SECURITY_GROUP_ID: sg-02ddba395c421b4f3
     EXECUTION_ROLE_ARN: arn:aws:iam::337243655832:role/ecsTaskExecutionRole
 
 phases:
